@@ -3,3 +3,4 @@ images/
 
 # Files
 *.csv
+*.DS_Store
