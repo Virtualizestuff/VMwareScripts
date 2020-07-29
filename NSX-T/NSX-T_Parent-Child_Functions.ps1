@@ -27,7 +27,7 @@ function New-NsxtParentPort{
                 throw "Could not connect to an NSX-T Manager, please try again"
             }
         }
-        # I was having issues getting attachment.context to pass using the Get-NsxtService method so using Invoke-Restmethod as a workaround. This does require the credentials again for NSX-T Manager :(
+        # I was having issues getting attachment.context to work using the Get-NsxtService method so resorted to Invoke-Restmethod as a workaround. This does require the credentials again for NSX-T Manager :(
         [System.Management.Automation.PSCredential]$global:cred = $(Get-Credential -Message "NSX-T credentials, please!")
         $vmService = Get-NsxtService -Name com.vmware.nsx.fabric.virtual_machines
      }
@@ -42,7 +42,6 @@ function New-NsxtParentPort{
             $logicalports = $lpSvc.list().results | Where-Object {$_.display_name -match $vm} | Sort-Object -Property "create_time"
             
             $incr = 0
-            # Couldn't find a way to do a post with the Get-NSXtService method. 
             ForEach ($logicalport in $logicalports) {
                 $body = [pscustomobject]@{
                 resource_type = "LogicalPort"
@@ -135,6 +134,7 @@ function New-NsxtParentPort{
                     id = (New-Item -Name $([System.Guid]::NewGuid().ToString())).name + "_" + $VLAN[$Name.IndexOf($n)]
                     }
                     logical_switch_id = ($logicalSwitches | Where-Object {$_.display_name -eq $LogicalSwitchName[$Name.IndexOf($n)]}).id    
+                    # address binding is hardcoded but may look into pull this information in dynamically
                     address_bindings = @(
                         @{
                         mac_address = "00:00:00:00:00:00"
