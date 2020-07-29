@@ -1,3 +1,6 @@
+# Author: Dave Davis
+# Website: www.virtualizestuff.com
+
 #===============================================#
 #   Modify Perennially Reserved on Datastores   #
 #===============================================#

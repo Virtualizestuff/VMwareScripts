@@ -1,3 +1,6 @@
+# Author: Dave Davis
+# Website: www.virtualizestuff.com
+
 function New-NsxtParentPort{
     [CmdLetBinding()]
      param (
